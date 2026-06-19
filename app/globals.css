@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
-/* VanCup v1.6 — "summer soccer at golden hour" palette */
+/* VanCup v1.8 — "summer soccer at golden hour" palette
+   v1.8 warms the dark neutrals: the background base, deep shadow and card
+   surface all carry an amber/plum undertone now (instead of cool navy/green),
+   so the whole page reads as warm dusk rather than night. */
 @theme {
   --color-sunset: #ff6b35; /* primary accent  — sunset orange */
   --color-golden: #ffb627; /* secondary       — golden hour yellow */
   --color-pitch: #3a7d44; /* tertiary        — pitch green */
   --color-pitch-light: #8ed49b; /* readable pitch-green text on dark */
   --color-cream: #fff8e7; /* main text       — warm cream */
-  --color-twilight: #1a2332; /* background base — twilight navy */
-  --color-grass: #0f1a14; /* background deep — grass shadow */
-  --color-surface: #222d3f; /* card surface    — twilight navy +~3% */
+  --color-twilight: #241d2b; /* background base — warm dusk plum */
+  --color-grass: #160f13; /* background deep — warm ember shadow */
+  --color-surface: #2a2333; /* card surface    — warm dusk +~3% */
 }
 
 /* Map font CSS variables (set by next/font) onto Tailwind utilities. */
@@ -27,30 +30,31 @@ body {
   font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Card surface — twilight navy at 95% so the atmospheric colour bleeds through
+/* Card surface — warm dusk at 95% so the atmospheric colour bleeds through
    just slightly, plus a blur so busy backgrounds never hurt text legibility. */
 .card-surface {
-  background-color: rgba(26, 35, 50, 0.95);
+  background-color: rgba(36, 29, 43, 0.95);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
 /* Warm twilight gradient with a golden-hour glow at the top.
-   CSS-only (no image asset): layered radial glows over a navy→grass fade. */
+   CSS-only (no image asset): layered radial glows over a dusk→ember fade.
+   v1.8 bumps the glow alphas (0.12 → 0.17) and warms the base fade. */
 .bg-twilight-grain {
   background-color: var(--color-twilight);
   background-image:
     radial-gradient(
       70% 55% at 50% -5%,
-      rgba(255, 182, 39, 0.12),
+      rgba(255, 182, 39, 0.17),
       transparent 60%
     ),
     radial-gradient(
       55% 45% at 88% 6%,
-      rgba(255, 107, 53, 0.12),
+      rgba(255, 107, 53, 0.17),
       transparent 55%
     ),
-    linear-gradient(180deg, #1a2332 0%, #14202a 45%, #0f1a14 100%);
+    linear-gradient(180deg, #241d2b 0%, #1c1620 45%, #160f13 100%);
   background-attachment: fixed;
 }
 
@@ -65,19 +69,39 @@ body {
    a few px, so the scroll-depth mask reveal is unaffected. */
 @keyframes atmo-drift-1 {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-8px, -6px, 0); }
+  to { transform: translate3d(-12px, -9px, 0); }
 }
 @keyframes atmo-drift-2 {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(7px, 5px, 0); }
+  to { transform: translate3d(11px, 8px, 0); }
 }
 @keyframes atmo-drift-3 {
   from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, 9px, 0); }
+  to { transform: translate3d(0, 13px, 0); }
 }
 .atmo-drift-1 { animation: atmo-drift-1 24s ease-in-out -3s infinite alternate; }
 .atmo-drift-2 { animation: atmo-drift-2 28s ease-in-out -9s infinite alternate; }
 .atmo-drift-3 { animation: atmo-drift-3 31s ease-in-out -15s infinite alternate; }
+
+/* 1b. Golden-hour glow breathing — a warm radial that slowly swells and fades,
+   layered behind the hero. Felt as the dusk light gently pulsing. Animates only
+   opacity/transform, so it stays compositor-friendly. */
+@keyframes atmo-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+.atmo-breathe { animation: atmo-breathe 12s ease-in-out infinite; }
+
+/* 1c. Rising embers — a few warm flecks drifting slowly upward like floodlit
+   dust at golden hour. Each ember sets its own duration/delay/offset via inline
+   style; here we just describe the rise + fade. */
+@keyframes ember-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: var(--ember-opacity, 0.5); }
+  88% { opacity: var(--ember-opacity, 0.5); }
+  100% { transform: translate3d(var(--ember-drift, 8px), -120px, 0); opacity: 0; }
+}
+.ember { animation: ember-rise var(--ember-duration, 14s) linear var(--ember-delay, 0s) infinite; }
 
 /* 2. Floating soccer-ball accent — gentle bob on the wrapper, very slow spin
    on the inner SVG (two transforms can't compose on one element, so we nest). */
@@ -111,17 +135,40 @@ body {
   animation: field-sweep 15s linear infinite;
 }
 
+/* 4. Countdown tick — the changing value gently pops each second. The element
+   is re-keyed by its seconds value in <Countdown/>, so React remounts it every
+   tick and the animation replays from the start. */
+@keyframes tick-pop {
+  0% { transform: translateY(1px) scale(0.96); opacity: 0.45; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.tick-pop { animation: tick-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* 5. Live radar ping — an expanding ring behind the solid LIVE dot, so live
+   fixtures read as actively "on air". Pure transform/opacity. */
+@keyframes live-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  70%, 100% { transform: scale(2.6); opacity: 0; }
+}
+.live-ping { animation: live-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
 /* Reduced-motion: hold every ambient animation perfectly still. */
 @media (prefers-reduced-motion: reduce) {
   .atmo-drift-1,
   .atmo-drift-2,
   .atmo-drift-3,
+  .atmo-breathe,
+  .ember,
   .ball-bob,
   .ball-spin,
-  .field-shimmer {
+  .field-shimmer,
+  .tick-pop,
+  .live-ping {
     animation: none !important;
   }
-  .field-shimmer {
+  .field-shimmer,
+  .ember,
+  .live-ping {
     opacity: 0;
   }
 }

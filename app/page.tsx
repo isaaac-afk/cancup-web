@@ -136,7 +136,10 @@ function MatchCard({ match }: { match: LiveMatch }) {
           }
         >
           {match.status === "live" ? (
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sunset" />
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="live-ping absolute inline-flex h-full w-full rounded-full bg-sunset" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-sunset" />
+            </span>
           ) : null}
           {statusLabel(match)}
         </span>
@@ -326,7 +329,10 @@ export default async function Home() {
         {liveNow.length > 0 ? (
           <section className="mt-12">
             <h2 className="font-headline flex items-center gap-2 text-2xl font-bold">
-              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-sunset" />
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="live-ping absolute inline-flex h-full w-full rounded-full bg-sunset" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-sunset" />
+              </span>
               Live now
             </h2>
             <div className="mt-4 flex flex-col gap-3">
