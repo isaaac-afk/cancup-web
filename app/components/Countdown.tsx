@@ -45,7 +45,14 @@ export default function Countdown({ targetDate }: { targetDate: string }) {
     text = parts.join(" ");
   }
 
+  // Re-key by the whole countdown string so the value gently "pops" each time it
+  // changes (every second in the live window — see `.tick-pop` in globals.css).
   return (
-    <span className="font-semibold tabular-nums text-golden">{text}</span>
+    <span
+      key={text}
+      className="tick-pop inline-block font-semibold tabular-nums text-golden"
+    >
+      {text}
+    </span>
   );
 }
