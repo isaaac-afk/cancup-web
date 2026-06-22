@@ -14,7 +14,7 @@ A Canada-focused dashboard for **FIFA World Cup 2026** — live scores from acro
 
 ## Screenshots
 
-> _Coming soon — drop screenshots in `/public` and link them here._
+
 >
 > | Home / next match | Live scores |
 > | ----------------- | ----------- |
