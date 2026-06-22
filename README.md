@@ -14,7 +14,6 @@ A Canada-focused dashboard for **FIFA World Cup 2026** — live scores from acro
 
 ## Screenshots
 
-
 >
 > | Home / next match | Live scores |
 > | ----------------- | ----------- |
@@ -68,7 +67,7 @@ Browser ──▶ Next.js Server Component ──▶ ESPN scoreboard API
 - `lib/espn.ts` — typed client for ESPN's `soccer/fifa.world/scoreboard` endpoint; maps their `events[]` shape to a clean `LiveMatch` type and degrades gracefully (returns `[]`) on failure.
 - `app/page.tsx` — Server Component homepage: next match in Canada, a "Live now" section, all 13 Canadian fixtures, and a tournament-wide feed.
 
-Why this shape? The World Cup starts **June 11, 2026**, so v1 prioritizes shipping a fast, reliable, read-only dashboard today with zero infra to manage.
+Why this shape? The World Cup starts June 11, 2026, so v1 prioritizes shipping a fast, reliable, read-only dashboard today with zero infra to manage.
 
 ### v2 — planned
 
