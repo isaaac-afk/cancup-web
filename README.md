@@ -11,7 +11,6 @@ A Canada-focused dashboard for **FIFA World Cup 2026** — live scores from acro
 - Shows a **Live now** section and a tournament-wide feed driven by the ESPN scoreboard API.
 
 ## Screenshots
-
 >
 > | Home / next match | Live scores |
 > | ----------------- | ----------- |
