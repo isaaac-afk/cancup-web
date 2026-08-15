@@ -31,7 +31,6 @@ No backend, no database, no API keys in v1 — the homepage is a Server Componen
 ---
 
 ## Run locally
-
 ```bash
 git clone https://github.com/isaaac-afk/vancup-web.git
 cd vancup-web
