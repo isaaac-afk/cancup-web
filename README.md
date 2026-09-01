@@ -4,7 +4,7 @@ A Canada-focused dashboard for **FIFA World Cup 2026** — live scores from acro
 
 **Live URL:** [vancup-web.vercel.app](https://vancup-web.vercel.app)
 
-## What it does
+## What it doe
 - Surfaces the **next upcoming match in Canada** with venue, city, and kickoff time.
 - Lists **all 13 Canadian matches** — colour-coded by host stadium (BC Place / Toronto Stadium) with Canada games highlighted.
 - Shows a **Live now** section and a tournament-wide feed driven by the ESPN scoreboard API.
