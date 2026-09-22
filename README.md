@@ -16,7 +16,6 @@ A Canada-focused dashboard for **FIFA World Cup 2026** — live scores from acro
 > | _placeholder_     | _placeholder_ |
 
 ---
-
 ## Tech stack
 
 - **Next.js 16** (App Router, React Server Components)
